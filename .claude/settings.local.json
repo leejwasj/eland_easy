@@ -23,7 +23,10 @@
       "Bash(git push *)",
       "Bash(curl -s https://lzkokoihakmbrlzwzfzv.supabase.co/rest/v1/ -H 'apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6a29rb2loYWttYnJsend6Znp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczNTE3ODIsImV4cCI6MjA5MjkyNzc4Mn0.nhSBETLYocwfE0a-m08U2qVP-I0zGqG5zh-qU8g8WjM')",
       "Bash(curl -s 'https://lzkokoihakmbrlzwzfzv.supabase.co/rest/v1/branches?select=id' -H 'apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6a29rb2loYWttYnJsend6Znp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczNTE3ODIsImV4cCI6MjA5MjkyNzc4Mn0.nhSBETLYocwfE0a-m08U2qVP-I0zGqG5zh-qU8g8WjM' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6a29rb2loYWttYnJsend6Znp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzczNTE3ODIsImV4cCI6MjA5MjkyNzc4Mn0.nhSBETLYocwfE0a-m08U2qVP-I0zGqG5zh-qU8g8WjM')",
-      "Bash(curl -s -X POST https://lzkokoihakmbrlzwzfzv.supabase.co/rest/v1/rpc/exec_sql -H 'apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6a29rb2loYWttYnJsend6Znp2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NzM1MTc4MiwiZXhwIjoyMDkyOTI3NzgyfQ.hQqcG_CEUBkQFCwizCgIwJU62BF9p7-vowcgFbVz7fU' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6a29rb2loYWttYnJsend6Znp2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NzM1MTc4MiwiZXhwIjoyMDkyOTI3NzgyfQ.hQqcG_CEUBkQFCwizCgIwJU62BF9p7-vowcgFbVz7fU' -H 'Content-Type: application/json' -d '{\"query\":\"SELECT 1\"}')"
+      "Bash(curl -s -X POST https://lzkokoihakmbrlzwzfzv.supabase.co/rest/v1/rpc/exec_sql -H 'apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6a29rb2loYWttYnJsend6Znp2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NzM1MTc4MiwiZXhwIjoyMDkyOTI3NzgyfQ.hQqcG_CEUBkQFCwizCgIwJU62BF9p7-vowcgFbVz7fU' -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6a29rb2loYWttYnJsend6Znp2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NzM1MTc4MiwiZXhwIjoyMDkyOTI3NzgyfQ.hQqcG_CEUBkQFCwizCgIwJU62BF9p7-vowcgFbVz7fU' -H 'Content-Type: application/json' -d '{\"query\":\"SELECT 1\"}')",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:3000 -o /dev/null -w \"%{http_code}\")",
+      "mcp__Claude_in_Chrome__tabs_context_mcp"
     ]
   }
 }

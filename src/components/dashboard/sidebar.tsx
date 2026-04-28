@@ -3,15 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import {
-  LayoutDashboard,
-  Settings,
-  ShieldCheck,
-  LogOut,
-  ChevronRight,
-} from 'lucide-react'
-import { logout } from '@/app/(auth)/login/actions'
-import { Button } from '@/components/ui/button'
+import { LayoutDashboard, Settings, ShieldCheck, ChevronRight } from 'lucide-react'
 
 const navItems = [
   { href: '/dashboard', label: '전체 대시보드', icon: LayoutDashboard, exact: true },
@@ -24,7 +16,6 @@ export function Sidebar() {
 
   return (
     <aside className="w-60 bg-[#1E3A5F] text-white flex flex-col shrink-0">
-      {/* 로고 */}
       <div className="px-6 py-5 border-b border-white/10">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center">
@@ -37,7 +28,6 @@ export function Sidebar() {
         </div>
       </div>
 
-      {/* 네비게이션 */}
       <nav className="flex-1 px-3 py-4 space-y-1">
         {navItems.map(({ href, label, icon: Icon, exact }) => {
           const isActive = exact ? pathname === href : pathname.startsWith(href)
@@ -59,20 +49,6 @@ export function Sidebar() {
           )
         })}
       </nav>
-
-      {/* 로그아웃 */}
-      <div className="px-3 pb-4 border-t border-white/10 pt-4">
-        <form action={logout}>
-          <Button
-            type="submit"
-            variant="ghost"
-            className="w-full justify-start gap-3 text-white/60 hover:text-white hover:bg-white/10 text-sm font-medium"
-          >
-            <LogOut className="w-4 h-4" />
-            로그아웃
-          </Button>
-        </form>
-      </div>
     </aside>
   )
 }

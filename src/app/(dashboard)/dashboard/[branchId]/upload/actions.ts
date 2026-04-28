@@ -6,9 +6,6 @@ import { revalidatePath } from 'next/cache'
 export async function uploadFile(formData: FormData) {
   const supabase = await createClient()
 
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return { error: '로그인이 필요합니다' }
-
   const file = formData.get('file') as File
   const branchId = formData.get('branchId') as string
 
@@ -23,7 +20,6 @@ export async function uploadFile(formData: FormData) {
     return { error: 'CSV 또는 Excel 파일만 업로드 가능합니다' }
   }
 
-  // 현재 최신 버전 조회
   const { data: latestUpload } = await supabase
     .from('uploads')
     .select('version')
@@ -36,7 +32,6 @@ export async function uploadFile(formData: FormData) {
   const nextVersion = latestVersion + 1
   const fileName = `${branchId}/${nextVersion}_${Date.now()}_${file.name}`
 
-  // Storage 업로드
   const { error: storageError } = await supabase.storage
     .from('uploads')
     .upload(fileName, file)
@@ -47,7 +42,6 @@ export async function uploadFile(formData: FormData) {
     .from('uploads')
     .getPublicUrl(fileName)
 
-  // uploads 테이블 저장
   const { data: upload, error: dbError } = await supabase
     .from('uploads')
     .insert({
@@ -55,7 +49,6 @@ export async function uploadFile(formData: FormData) {
       version: nextVersion,
       file_url: publicUrl,
       file_name: file.name,
-      uploaded_by: user.id,
     } as never)
     .select('id')
     .single()
@@ -64,7 +57,6 @@ export async function uploadFile(formData: FormData) {
 
   const uploadId = (upload as { id: string }).id
 
-  // 분석 레코드 생성
   await supabase
     .from('analyses')
     .insert({ upload_id: uploadId, status: 'pending' } as never)

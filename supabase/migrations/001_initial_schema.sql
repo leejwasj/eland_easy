@@ -28,7 +28,7 @@ create table public.uploads (
   version integer not null default 1,
   file_url text not null,
   file_name text not null,
-  uploaded_by uuid not null references public.users(id),
+  uploaded_by uuid,
   uploaded_at timestamptz not null default now()
 );
 
