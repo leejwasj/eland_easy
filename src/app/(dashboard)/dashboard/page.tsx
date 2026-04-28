@@ -2,9 +2,11 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { BranchCard } from '@/components/dashboard/branch-card'
 import { StatsCard } from '@/components/dashboard/stats-card'
+import { BranchOverviewChart } from '@/components/dashboard/branch-overview-chart'
 import { buttonVariants } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Building2, TrendingUp, Clock, Plus, Search } from 'lucide-react'
+import { Building2, TrendingUp, Clock, Plus, Search, BarChart3 } from 'lucide-react'
 import type { BranchRow, GapCategory } from '@/types/database'
 import { cn } from '@/lib/utils'
 
@@ -49,8 +51,23 @@ export default async function DashboardPage() {
     ? Math.round(allScores.reduce((s, v) => s + v, 0) / allScores.length)
     : 0
 
+  // 차트 데이터: 분석 완료된 지점만
+  const chartData = branchList
+    .map((branch) => {
+      const cats = branch.uploads
+        ?.flatMap(u => u.analyses?.flatMap(a =>
+          (a.result_json as { gap_categories?: GapCategory[] } | null)?.gap_categories ?? []
+        ) ?? []) ?? []
+      const avg = cats.length > 0
+        ? Math.round(cats.reduce((s, c) => s + c.gap_score, 0) / cats.length)
+        : null
+      return avg !== null ? { name: branch.name, score: avg, branchId: branch.id } : null
+    })
+    .filter(Boolean) as { name: string; score: number; branchId: string }[]
+
   return (
     <div className="space-y-8 max-w-7xl">
+      {/* 헤더 */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-[#1E3A5F]">전체 지점 현황</h1>
@@ -64,6 +81,7 @@ export default async function DashboardPage() {
         </Link>
       </div>
 
+      {/* 통계 카드 */}
       <div className="grid grid-cols-3 gap-4">
         <StatsCard title="전체 지점" value={totalBranches} sub="등록된 지점 수" icon={Building2} accent="blue" />
         <StatsCard
@@ -73,14 +91,57 @@ export default async function DashboardPage() {
           icon={TrendingUp}
           accent="emerald"
         />
-        <StatsCard title="평균 공백 점수" value={avgGap || '-'} sub="높을수록 공백 가능성 높음" icon={Clock} accent="amber" />
+        <StatsCard
+          title="평균 공백 점수"
+          value={avgGap || '-'}
+          sub="높을수록 공백 가능성 높음"
+          icon={Clock}
+          accent="amber"
+        />
       </div>
 
-      <div className="relative max-w-sm">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-        <Input placeholder="지점명 또는 상권명 검색" className="pl-9 bg-white" />
+      {/* 차트 섹션 */}
+      {chartData.length > 0 && (
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <BarChart3 className="w-4 h-4 text-[#2563EB]" />
+              지점별 평균 공백 점수
+              <span className="text-xs font-normal text-muted-foreground ml-1">
+                (막대 클릭 시 상세 이동)
+              </span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-4 mb-3 text-xs text-muted-foreground">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-sm bg-emerald-500 inline-block" />
+                70 이상 (높음)
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-sm bg-amber-500 inline-block" />
+                40–69 (보통)
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-sm bg-slate-400 inline-block" />
+                40 미만 (낮음)
+              </span>
+            </div>
+            <BranchOverviewChart data={chartData} />
+          </CardContent>
+        </Card>
+      )}
+
+      {/* 검색 */}
+      <div className="flex items-center justify-between">
+        <div className="relative max-w-sm w-full">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Input placeholder="지점명 또는 상권명 검색" className="pl-9 bg-white" />
+        </div>
+        <p className="text-sm text-muted-foreground">총 {branchList.length}개 지점</p>
       </div>
 
+      {/* 지점 카드 그리드 */}
       {branchList.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center">
           <Building2 className="w-12 h-12 text-slate-300 mb-4" />
